@@ -534,7 +534,8 @@ class TestTaskSession(LogTestCase, testutils.TempDirFixture,
         db = DataBuffer()
 
         sess = TaskSession(conn)
-        sess.send = lambda m: db.append_bytes(m.serialize(lambda x: b'\000'*65))
+        sess.send = lambda m: db.append_bytes(
+            m.serialize(lambda x: b'\000' * 65))
         sess._can_send = lambda *_: True
         sess.request_resource(str(uuid.uuid4()), TaskResourceHeader("tmp"))
 
@@ -573,6 +574,7 @@ class TestTaskSession(LogTestCase, testutils.TempDirFixture,
         session.concent_service.cancel.reset_mock()
         session._react_to_reject_report_computed_task(msg_ack)
         assert session.concent_service.cancel.called
+
 
     def test_react_to_resource_list(self):
         task_server = self.task_session.task_server
@@ -713,7 +715,7 @@ class ForceReportComputedTaskTestCase(testutils.DatabaseFixture,
         for i in range(100, 300, 99):
             p = pathlib.Path(self.tempdir) / str(i)
             with p.open('wb') as f:
-                f.write(b'\0' * i*2**20)
+                f.write(b'\0' * i * 2 ** 20)
             result.append(str(p))
         wtr = WaitingTaskResult(task_id, subtask_id, result, ResultType.FILES,
                                 13190, 10, 0, "10.10.10.10",
