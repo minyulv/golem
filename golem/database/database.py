@@ -25,7 +25,7 @@ class Database:
         self.db.init(path.join(datadir, 'golem.db'))
         self.db.connect()
 
-        version = self._get_user_version()
+        version = self.get_user_version()
 
         if not version:
             self._create_database()
@@ -36,22 +36,21 @@ class Database:
         if not self.db.is_closed():
             self.db.close()
 
-    def _get_user_version(self) -> int:
+    def get_user_version(self) -> int:
         cursor = self.db.execute_sql('PRAGMA user_version').fetchone()
         return int(cursor[0])
 
-    def _set_user_version(self, version: int) -> None:
+    def set_user_version(self, version: int) -> None:
         self.db.execute_sql('PRAGMA user_version = {}'.format(version))
 
     def _create_database(self) -> None:
         log.info("Creating database, version %r", self.SCHEMA_VERSION)
 
         self.db.create_tables(self.models, safe=True)
-        self._set_user_version(self.SCHEMA_VERSION)
+        self.set_user_version(self.SCHEMA_VERSION)
 
     def _migrate_database(self, version, to_version) -> None:
         log.info("Migrating database from version %r to %r",
                  version, to_version)
 
-        migrate_schema(self.db, version, to_version)
-        self._set_user_version(to_version)
+        migrate_schema(self, version, to_version)
