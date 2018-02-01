@@ -50,7 +50,7 @@ class DatabaseMigration(Command):
         pass
 
     def run(self):
-        from golem.database.migration.creator import create_migration
+        from golem.database.migration.create import create_migration
 
         try:
             migration_script_path = create_migration(force=self.force)

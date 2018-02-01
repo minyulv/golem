@@ -95,7 +95,7 @@ if building_wheel:
     move_wheel()
 
 if not building_migration:
-    from golem.database.migration.creator import latest_migration_exists
+    from golem.database.migration.create import latest_migration_exists
     if not latest_migration_exists():
         raise RuntimeError("Database schema error: latest migration script "
                            "does not exist")
