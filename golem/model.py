@@ -14,7 +14,7 @@ from peewee import (BooleanField, CharField, CompositeKey, DateTimeField,
                     TextField, BlobField)
 
 from golem.core.simpleserializer import DictSerializable
-from golem.database.sqlite import GolemSqliteDatabase
+from golem.database import GolemSqliteDatabase
 from golem.network.p2p.node import Node
 from golem.ranking.helper.trust_const import NEUTRAL_TRUST
 from golem.utils import decode_hex, encode_hex

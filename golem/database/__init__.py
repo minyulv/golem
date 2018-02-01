@@ -1,7 +1,6 @@
 __all__ = [
     'Database',
-    'schemas',
+    'GolemSqliteDatabase'
 ]
 
-from . import schemas
-from .database import Database
+from .database import Database, GolemSqliteDatabase
